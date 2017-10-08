@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SudoCAIXA</title>
+	<link rel="stylesheet" href="/styles/bulma.css">
+	<link rel="stylesheet" href="/styles/animate.css">
+	<link rel="stylesheet" href="/styles/sudoku.css">
+</head>
+<body>
+	<div id="app">
+		<section class="hero is-info sudoku-box">
+			<div class="container">
+				<h1 class="title">SudoCAIXA</h1>
+				<h2 class="subtitle">Sudoku Hackaixa</h2>
+			</div>
+		</section>
+		<section class="section" v-cloak>
+			<transition 
+				name="custom-fade"
+				enter-active-class="animated bounceInUp" 
+				leave-active-class="animated bounceOutDown"
+			>
+				<div v-if="showGrid" class="sudoku-board" id="sudoku-board-id">
+					<table>
+						<tr v-for="(rows, rowIndex) in initialGrid">
+							<td class="sudoku-cell" v-for="(cell, cellIndex) in rows">
+								<input type="text" 
+										maxlength="1"
+										@keyup="checkValue(grid[rowIndex][cellIndex], rowIndex, cellIndex, $event)" 
+										v-model.number="viewGrid[rowIndex][cellIndex]" 
+										:disabled="cell != 0">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</transition>
+			<div class="container sudoku-controls">
+				<button class="button is-info" @click="completeGrid(true)">Resolver Jogo</button>
+				<button class="button is-info" @click="newGrid">Novo</button>
+			</div>
+		</section>
+		<section class="hero is-info sudoku-box">
+			<div class="container">
+				<h1 class="title">Leonardo de Albuquerque Gouveia</h1>
+				<h2 class="subtitle">leonado.gouveia@caixa.gov.br</h2>
+
+			</div>
+		</section>
+
+		<div v-show="completedGame" class="modal is-active">
+			<div id="modal-completed-game">
+				<div class="modal-background"></div>
+				<div class="modal-card">
+					<div class="modal-card-head">
+						<p class="modal-card-title">Parabéns!</p>
+						<button @click="completedGame = false" class="delete"></button>
+					</div>
+					<section class="modal-card-body">
+						<p class="title">
+							Parabéns, você completou o SudoCAIXA com sucesso!!
+						</p>
+					</section>
+					<footer class="modal-card-foot">
+						<button @click="closeCompletedGameModal()" class="button is-success">OK</button>
+					</footer>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="/scripts/vue.js"></script>
+	<script src="/scripts/jquery.slim.min.js"></script>
+	<script src="/scripts/sudoku.js"></script>
+	<script src="/scripts/sudoku_vue.js"></script>
+</body>
+</html>
